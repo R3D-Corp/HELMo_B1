@@ -1,16 +1,15 @@
 ## Description
 
-Welcome to my repository for my Java Programation course
+This repository contains materials for my Java programming course.
 
 ## Folder Structure
 
-The repository contains 2 folders :
+There are two main folders:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- `src`: Contains source code.
+- `lib`: Contains dependencies.
 
+## Dependency Management & Copyright
 
-## Dependency Management & Property's Right
-
-All right reserved of the io & util folders come to Comblin Arnaud.
-All right reserved of the src folder come to me (Ethan Redoté)
+All rights to the `io` and `util` folders belong to Comblin Arnaud.  
+All rights to the `src` folder belong to Ethan Redoté.
