@@ -52,22 +52,6 @@ public class DateAnniversaire {
         return date;
     }
 
-    // private static void calculerAge() {
-    //     int[] aujd = Date.aujourdhui();
-
-    //     int dureeJour, dureeMois, dureeAnnee;
-
-    //     dureeJour = Math.abs(aujd[0] - dateFIRST[0]);
-    //     dureeMois = (Math.abs(aujd[1] - dateFIRST[1]) +  (dureeJour / 12));
-    //     dureeJour = dureeJour % 30;
-    //     dureeAnnee = (aujd[2] - dateFIRST[2] + (dureeMois /12));
-        
-    //     System.out.println(dureeAnnee);
-    //     System.out.println(dureeMois);
-    //     System.out.println(dureeJour);
-
-    // }
-
     private static void calculerAge(String dob) {
         int[] date = extractDOB_SPLIT(dob);
 
@@ -76,7 +60,7 @@ public class DateAnniversaire {
         int numJourAjd = Date.numeroJour();
         int numJourAniv = Date.numeroJour(date[0], date[1], anneeAjd);
 
-        System.out.println(age + (numJourAjd % numJourAniv));
+        System.out.println(age - Math.min(1, numJourAniv / numJourAjd));
     }
 
     public static void main(String[] args) {

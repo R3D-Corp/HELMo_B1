@@ -1,15 +1,36 @@
-## Description
+## Aperçu
 
-This repository contains materials for my Java programming course.
+Ce dépôt fournit des ressources pour le cours de programmation Java.
+
+## Structure des dossiers
+
+- `src` : Code source Java.
+- `lib` : Dépendances du projet.
+
+## Utilisation
+
+N'hésitez pas à consulter ou comparer votre code avec les exemples présents ici. Si vous utilisez une partie de ce travail, veuillez fournir un crédit approprié.
+
+## Droits d'auteur & Dépendances
+
+- Tous droits réservés pour les dossiers `io` et `util` à Comblin Arnaud.
+- Tous droits réservés pour le dossier `src` à Ethan Redoté.
+
+## Overview
+
+This repository provides resources for the Java programming course.
 
 ## Folder Structure
 
-There are two main folders:
+- `src`: Java source code.
+- `lib`: Project dependencies.
 
-- `src`: Contains source code.
-- `lib`: Contains dependencies.
+## Usage
 
-## Dependency Management & Copyright
+Feel free to reference or compare your code with the examples here. If you use any part of this work, please provide appropriate credit.
 
-All rights to the `io` and `util` folders belong to Comblin Arnaud.  
-All rights to the `src` folder belong to Ethan Redoté.
+## Copyright & Dependencies
+
+- All rights reserved for the `io` and `util` folders by Comblin Arnaud.
+- All rights reserved for the `src` folder by Ethan Redoté.
+
