@@ -4,18 +4,13 @@ import io.Console;
 import util.Date;
 
 
-/*
-    Not working. 
-    I'm working on it.
-*/
-
-
 public class DateAnniversaire {
 
     private static int[] dateFIRST = new int[3];
     private static int iteration = 0;
     
     // Méthode with indexOf et Substring
+    @SuppressWarnings("unused")
     private static void extractDOB(String dob) {
         int index = dob.indexOf("/");
         if(index == -1) {
@@ -37,7 +32,6 @@ public class DateAnniversaire {
     /**
      * Méthode avec String.split;
      * Cette fonction reçoit une chaîne de caractère la décompose et renvoie les valeurs jour, mois et année.
-     * 
      * @param dob La date en string de format ("jj/mm/aaaa")
      * @return un tableau int[] de structure {jour, mois, année} 
      */
@@ -60,7 +54,11 @@ public class DateAnniversaire {
         int numJourAjd = Date.numeroJour();
         int numJourAniv = Date.numeroJour(date[0], date[1], anneeAjd);
 
-        System.out.println(age - Math.min(1, numJourAniv / numJourAjd));
+        if(numJourAjd < numJourAniv) {
+            age = age - 1;
+        }
+
+        System.out.println(age);
     }
 
     public static void main(String[] args) {
@@ -68,7 +66,7 @@ public class DateAnniversaire {
         prenom = Console.lireString("Prénom ? ");
         System.out.printf("Bienvenue %s \n", prenom);
 
-        String dob = Console.lireString("DOB ? ");
+        String dob = Console.lireString("Date de naissance ? ");
         calculerAge(dob);
     }
    
