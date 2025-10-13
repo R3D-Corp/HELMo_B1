@@ -5,7 +5,7 @@ import io.Console;
 public class FormaterPrenom {
     private static String firstLetterUppercase(String text) {
 
-        String[] splitted = text.split(" ");
+        String[] splitted = text.split("\s");
         String toReturn = "";
         for(int i=0; i<splitted.length; i++) {
             String s = splitted[i];
