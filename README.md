@@ -13,6 +13,7 @@ N'hésitez pas à consulter ou comparer votre code avec les exemples présents i
 
 ## Droits d'auteur & Dépendances
 
+- Tous droits réservés sur les idées de programmes à Comblin Arnaud
 - Tous droits réservés pour les dossiers `io` et `util` à Comblin Arnaud.
 - Tous droits réservés pour le dossier `src` à Ethan Redoté.
 

@@ -58,13 +58,13 @@ public class DateAnniversaire {
             age = age - 1;
         }
 
-        System.out.println(age);
+        IO.println(age);
     }
 
     public static void main(String[] args) {
         String prenom;
         prenom = Console.lireString("Prénom ? ");
-        System.out.printf("Bienvenue %s \n", prenom);
+        IO.println(String.format("Bienvenue %s", prenom));
 
         String dob = Console.lireString("Date de naissance ? ");
         calculerAge(dob);

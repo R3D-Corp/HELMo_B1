@@ -35,6 +35,10 @@ public class SuperClics {
 	 * @param max Le nombre maximum possible du tirage au sort
 	 * @return Nombre aléatoire compris entre [min; max]
 	 */
+	private static int getRandom(int min, int max) {
+		return (int)(Math.random() * (max - min) + min);
+	}
+	
 	public static void main(String[] args) {
 		// Démarrage de l'interface graphique
 		SuperClics superClics = new SuperClics("Super Clics", 600, 600);
@@ -42,9 +46,6 @@ public class SuperClics {
 		superClics.afficher();
 	}
 	
-	private static int getRandom(int min, int max) {
-		return (int)(Math.random() * (max - min) + min);
-	}
 
 	private void initialiser() {
 		nouvellePartie();
@@ -73,7 +74,7 @@ public class SuperClics {
 		if(distance<=RAYON) {
 			nouvellePartie();
 			points = points + (10000 / TempsAuClic);
-			System.out.println("Votre score : " + points);
+			IO.println("Votre score : " + points);
 		}
 	}
 

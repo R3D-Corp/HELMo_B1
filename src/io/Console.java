@@ -31,7 +31,7 @@ public class Console {
 				resultat = lecteur.readLine();
 			} else {
 				resultat = saisies.remove();
-				System.out.println(resultat);
+				IO.println(resultat);
 			}
 		} catch (IOException e) {
 			System.err.println("Erreur dans Console.lireString : " + e.getMessage());
@@ -48,7 +48,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static String lireString(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireString();
 	}
 
@@ -79,7 +79,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static char lireChar(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireChar();
 	}
 
@@ -111,7 +111,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static int lireInt(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireInt();
 	}
 
@@ -143,7 +143,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static long lireLong(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireLong();
 	}
 
@@ -175,7 +175,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static float lireFloat(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireFloat();
 	}
 
@@ -207,7 +207,7 @@ public class Console {
 	 * @since 1.3
 	 */
 	public static double lireDouble(String message) {
-		System.out.print(message);
+		IO.print(message);
 		return lireDouble();
 	}
 
