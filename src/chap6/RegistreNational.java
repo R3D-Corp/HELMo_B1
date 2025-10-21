@@ -12,7 +12,13 @@ import io.Console;
 public class RegistreNational {
 
     public static boolean isValid(String registreNational) {
-        
+        String regex = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher  = pattern.matcher(registreNational);
+
+        if(!matcher.find()) throw new IllegalArgumentException("Format invalide");
+
+
         String s = registreNational.replace("-", ".");
         long nRegistre = extractRegistre(s);
         int validityNumber = extractValidityNumber(s);
@@ -48,22 +54,5 @@ public class RegistreNational {
 
         if(component.length != 5) throw  new IllegalArgumentException("Registre invalide");
         return Integer.parseInt(component[5 - 1]);
-    }
-
-    public static void main(String[] args) {
-
-        String nRegistre = Console.lireString("Votre numéro de registre (xx.xx.xx-xxx.xx) ? ").trim();
-        String regex = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(nRegistre);
-        
-        if(matcher.find()) {
-            if(!isValid(nRegistre)) {
-                int[] correctNumber = caluclateValidityNumber(extractRegistre(nRegistre.replace("-", ".")));
-                IO.println(String.format("Invalide. Le nombre de sécurité doit être %d ou %d (post 2000)", correctNumber[0], correctNumber[1]));
-            };
-        } else {
-            throw new IllegalArgumentException("Registre invalide");
-        }
     }
 }
