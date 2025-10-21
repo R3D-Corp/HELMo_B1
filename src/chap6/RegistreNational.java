@@ -9,18 +9,26 @@ import io.Console;
 // 97 - (tot % 97)
 public class RegistreNational {
 
-    private static long caluclateValidityNumber(long nRegistre) {
-        return (97) - nRegistre % 97;
-    }
-
-    private static boolean isValid(long nRegistre, int validityNumber) {
+    
+    public static boolean isValid(String registreNational) {
+        
+        long nRegistre = extractRegistre(registreNational.replace("-", "."));
+        int validityNumber = extractValidityNumber(registreNational.replace("-", "."));
+        
         if(validityNumber < 1 || validityNumber > 97) throw new IllegalArgumentException("Le code de sécurité est invalide.");
-        if(!(validityNumber == caluclateValidityNumber(nRegistre)) ) {
-            System.out.println("salut");
-            System.out.println(Long.parseLong("2" + String.valueOf(nRegistre)));
-            return validityNumber == Long.parseLong("2" + String.valueOf(nRegistre));
+        int[] correctNumber = caluclateValidityNumber(nRegistre);
+        
+        if(!(correctNumber[0] == validityNumber)) {
+            return validityNumber == correctNumber[1];
         }
-        return (validityNumber == caluclateValidityNumber(nRegistre));
+        return true;
+    }
+    
+    private static int[] caluclateValidityNumber(long nRegistre) {
+        int firstValidityNumber = (int)(97 - nRegistre % 97);
+        int secondValidityNumber =  (int)(97 - (nRegistre + 2e9) % 97);
+
+        return new int[] {firstValidityNumber, secondValidityNumber};
     }
 
     private static long extractRegistre(String registre) {
@@ -48,12 +56,10 @@ public class RegistreNational {
         Matcher matcher = pattern.matcher(nRegistre);
 
         if(matcher.find()) {
-            nRegistre = nRegistre.replace("-", ".");
-            
-            boolean isValid = isValid(extractRegistre(nRegistre), extractValidityNumber(nRegistre));
-            IO.println(isValid);
-            
-            if(!isValid) IO.println(String.format("Invalide. Attendu : %d", caluclateValidityNumber(extractRegistre(nRegistre))));
+            if(!isValid(nRegistre)) {
+                int[] correctNumber = caluclateValidityNumber(extractRegistre(nRegistre));
+                IO.println(String.format("Invalide. Le nombre de sécurité doit être %d ou %d (post 2000)", correctNumber[0], correctNumber[1]));
+            };
         } else {
             throw new IllegalArgumentException("Registre invalide");
         }

@@ -20,5 +20,4 @@ public class TicketSNCB_1 {
 		int age = Console.lireInt("Votre âge ? ");
 		IO.println(String.format("Prix à payer = %.2f EUR\n", calculerPrix(age)));
 	}
-
 }
