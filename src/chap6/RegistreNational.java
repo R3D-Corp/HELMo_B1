@@ -1,5 +1,7 @@
 package chap6;
 
+import static org.junit.jupiter.api.DynamicTest.stream;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,11 +11,11 @@ import io.Console;
 // 97 - (tot % 97)
 public class RegistreNational {
 
-    
     public static boolean isValid(String registreNational) {
         
-        long nRegistre = extractRegistre(registreNational.replace("-", "."));
-        int validityNumber = extractValidityNumber(registreNational.replace("-", "."));
+        String s = registreNational.replace("-", ".");
+        long nRegistre = extractRegistre(s);
+        int validityNumber = extractValidityNumber(s);
         
         if(validityNumber < 1 || validityNumber > 97) throw new IllegalArgumentException("Le code de sécurité est invalide.");
         int[] correctNumber = caluclateValidityNumber(nRegistre);
@@ -54,10 +56,10 @@ public class RegistreNational {
         String regex = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(nRegistre);
-
+        
         if(matcher.find()) {
             if(!isValid(nRegistre)) {
-                int[] correctNumber = caluclateValidityNumber(extractRegistre(nRegistre));
+                int[] correctNumber = caluclateValidityNumber(extractRegistre(nRegistre.replace("-", ".")));
                 IO.println(String.format("Invalide. Le nombre de sécurité doit être %d ou %d (post 2000)", correctNumber[0], correctNumber[1]));
             };
         } else {

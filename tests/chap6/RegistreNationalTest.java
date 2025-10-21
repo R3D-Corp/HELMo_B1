@@ -15,8 +15,15 @@ public class RegistreNationalTest {
 
     @Test
     @Order(2)
-    public void estNumeroInvalide_Post2000() {
-        assertFalse(RegistreNational.isValid("36.10.21-171.33"));
-        assertFalse(RegistreNational.isValid("07.07.19-171.69"));
+    public void estNumeroInvalide_Pre2000() {
+        assertFalse(RegistreNational.isValid("05.05.05-123.63"));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Order(1)
+    public void estInvalide() {
+        assertTrue(RegistreNational.isValid("36.10.21-171.99"));
+        assertTrue(RegistreNational.isValid("07.07.19-171.00"));
+    }
+
 }
