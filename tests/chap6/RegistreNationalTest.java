@@ -20,10 +20,27 @@ public class RegistreNationalTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @Order(1)
-    public void estInvalide() {
+    @Order(3)
+    public void estInvalide_1() {
         assertTrue(RegistreNational.isValid("36.10.21-171.99"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Order(4)
+    public void estInvalide_2() {
         assertTrue(RegistreNational.isValid("07.07.19-171.00"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Order(5)
+    public void estInvalide_3() {
+        assertTrue(RegistreNational.isValid("07.07.19-171.54.33"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Order(6)
+    public void estInvalide_4() {
+        assertTrue(RegistreNational.isValid("07.07.19-171"));
     }
 
 }
