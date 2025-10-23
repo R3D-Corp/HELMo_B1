@@ -1,11 +1,7 @@
 package chap6;
 
-import static org.junit.jupiter.api.DynamicTest.stream;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import io.Console;
 
 // [1 et 97]
 // 97 - (tot % 97)
