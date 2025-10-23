@@ -8,7 +8,9 @@ public final class Rectangle {
      * @return perimètre du rectangle en type double
      */
     public static double perimetre(double hauteur, double largeur) {
-        return (2 * hauteur) + (2 * largeur);
+        if(hauteur <= 0 || largeur <= 0) throw new IllegalArgumentException("Hauteur et Largeur doivent être > 0");
+
+        return 2 * (largeur + hauteur);
     }
     
     /**
@@ -17,6 +19,8 @@ public final class Rectangle {
      * @param largeur Largeur du rectangle en type double
      */
     public static double aire(double hauteur, double largeur) {
+        if(hauteur <= 0 || largeur <= 0) throw new IllegalArgumentException("Hauteur et Largeur doivent être > 0");
+
         return hauteur * largeur;
     }
 }

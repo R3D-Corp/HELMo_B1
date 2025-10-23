@@ -30,8 +30,8 @@ public class FormaterPrenom {
         nom = Console.lireString("Nom ? ").trim();
         ville = Console.lireString("Ville ? ").trim();
 
-        System.out.println(firstLetterUppercase(prenom));
-        System.out.println(firstLetterUppercase(nom));
-        System.out.println(firstLetterUppercase(ville));
+        IO.println(firstLetterUppercase(prenom));
+        IO.println(firstLetterUppercase(nom));
+        IO.println(firstLetterUppercase(ville));
     }
 }

@@ -13,7 +13,7 @@ public class convertisseurBase2 {
 		if(value > 0) {
 			binary[iteration] = value % 2;
 			iteration++;
-			//System.out.println(value);
+			//IO.println(value);
 			comptage(divide2);
 		}
 	}
@@ -29,7 +29,7 @@ public class convertisseurBase2 {
 		for(int i=iteration-1; i>=0; i--) {
 			result = result + binary[i];
 		}
-		System.out.println("Binary : " + result);
-		System.out.println("Nombre de bits : " + result.length());
+		IO.println("Binary : " + result);
+		IO.println("Nombre de bits : " + result.length());
 	} 
 }
