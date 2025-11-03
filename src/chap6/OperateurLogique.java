@@ -26,7 +26,6 @@ public class OperateurLogique {
             message(2, true);
         } else message(2, false);
 
-
         if(x <= 0 || (x >= 5 && x < 10)) message(3, true);
         else message(3, false);
 
