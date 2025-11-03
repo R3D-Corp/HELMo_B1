@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Cette classe propose différentes fonctions permettant de réaliser
@@ -50,6 +52,48 @@ public class Console {
 	public static String lireString(String message) {
 		IO.print(message);
 		return lireString();
+	}
+	/**
+	 * Récupère la saisie de l'utilisateur au format String et respectant l'expression réguilière.
+	 * @param message Le texte à afficher pour indiquer à l'utilisateur la donnée
+	 * 				  attendue.
+	 * @param regex l'expression régulière a respecter.
+	 * @return la chaîne de caractères saisie.
+	 * @since 1.5
+	 * 
+	 */
+	public static String lireString(String message, String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		
+		String s = lireString(message);
+		Matcher matcher  = pattern.matcher(s);
+
+		if(!matcher.matches()) {
+			return lireString(message, regex);
+		}
+		return s;
+	}
+	/**
+	 * Récupère la saisie de l'utilisateur au format String et respectant l'expression réguilière.
+	 * @param message Le texte à afficher pour indiquer à l'utilisateur la donnée
+	 * 				  attendue.
+	 * @param messageErreur Le texte à afficher lors d'une erreur de saisie.
+	 * @param regex l'expression régulière a respecter.
+	 * @return la chaîne de caractères saisie.
+	 * @since 1.5
+	 * 
+	 */
+	public static String lireString(String message, String messageErreur, String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		
+		String s = lireString(message);
+		Matcher matcher  = pattern.matcher(s);
+
+		if(!matcher.matches()) {
+			IO.println(messageErreur);
+			return lireString(message, regex);
+		}
+		return s;
 	}
 
 	/**
