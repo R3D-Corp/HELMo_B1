@@ -33,7 +33,7 @@ public class DistributeurBillets {
     }
 
     private static int getValue() {
-        String montant = Console.lireString("Montant en euros ? ", "\\d{1,3}");
+        String montant = Console.lireStringWhile("Montant en euros ? ", "\\d{1,3}");
         return Integer.parseInt(montant);   
     }
 
