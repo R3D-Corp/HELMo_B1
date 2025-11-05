@@ -62,16 +62,12 @@ public class Console {
 	 * @since 1.5
 	 * 
 	 */
-	public static String lireString(String message, String regex) {
+	private static String lireString(String message, String regex) {
 		Pattern pattern = Pattern.compile(regex);
 		
 		String s = lireString(message);
 		Matcher matcher  = pattern.matcher(s);
-
-		if(!matcher.matches()) {
-			return lireString(message, regex);
-		}
-		return s;
+		return matcher.matches() ? s : null;
 	}
 	/**
 	 * Récupère la saisie de l'utilisateur au format String et respectant l'expression réguilière.
@@ -83,19 +79,28 @@ public class Console {
 	 * @since 1.5
 	 * 
 	 */
-	public static String lireString(String message, String messageErreur, String regex) {
-		Pattern pattern = Pattern.compile(regex);
-		
-		String s = lireString(message);
-		Matcher matcher  = pattern.matcher(s);
-
-		if(!matcher.matches()) {
-			IO.println(messageErreur);
-			return lireString(message, regex);
+	public static String lireStringWhile(String message, String regex) {
+		boolean isCorrect = false;
+		String s; 
+		do {
+			s = lireString(message, regex);
+			if(s != null) isCorrect = !isCorrect;
 		}
+		while(!isCorrect);
 		return s;
 	}
 
+	public static String lireStringWhile(String message, String messageErreur, String regex) {
+		boolean isCorrect = false;
+		String s;
+		do {
+			s = lireString(message, regex);
+			if(s == null) IO.println(messageErreur);
+			else isCorrect = !isCorrect;
+		} while(!isCorrect);
+
+		return s;
+	} 
 	/**
 	 * Récupère la saisie de l'utilisateur au format char.
 	 * 

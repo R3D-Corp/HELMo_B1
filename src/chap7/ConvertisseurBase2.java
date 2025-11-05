@@ -13,13 +13,12 @@ public class ConvertisseurBase2 {
 	}
 
 	public static void main(String[] args) {
-		
 		long number10;
 		
-		number10 = Console.lireLong("Entier ? ");
+		number10 = Long.parseLong(Console.lireStringWhile("Entier ? ", "\\d{1,50000}"));
 					
 		String result = convert(number10);
 		IO.println("Binary : " + result);
 		IO.println("Nombre de bits : " + result.length());
-	} 
+	}
 }
