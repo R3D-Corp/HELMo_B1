@@ -42,8 +42,6 @@ public class DistributeurBillets {
     }
 
     public static void main(String[] args) throws Exception {
-        // UsersManager userManager = new UsersManager();
-        
         while(!getCommand().equals("exit")) {
             int montant = getValue();
             int[] billets = compterBillets(montant);

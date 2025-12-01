@@ -1,13 +1,32 @@
 package chap8;
 
+import java.util.Arrays;
+
 import io.Console;
 
 public class DistributeurBillets {
 	
 	// Tableau constant, represantant le type de billets que la machine peut rendre.
-	private static final int[] VALEURS_BILLETS = new int[] {200, 100, 50, 20, 10, 5};
+	// private static final int[] VALEURS_BILLETS = new int[] {200, 100, 50, 20, 10, 5};
+	private static final int[] VALEURS_BILLETS = new int[] {200, 50, 100, 25, 19, 20, 10, 5};
+
+	private static void trierBillets() {
+		for(int i = 0; i<VALEURS_BILLETS.length / 2; i++) {
+			int max = VALEURS_BILLETS[i];
+			for(int j = i; j<VALEURS_BILLETS.length; j++) {
+				if(max<VALEURS_BILLETS[j]) {
+					int temp = VALEURS_BILLETS[j];
+					VALEURS_BILLETS[j] = max;
+					VALEURS_BILLETS[i] = temp;
+				}
+			}
+		};
+		IO.println(Arrays.toString(VALEURS_BILLETS));
+	}
 
 	public static void main(String[] args) {
+
+		trierBillets();
 
 		int[] billetsRendu = new int[VALEURS_BILLETS.length];
 		int montant;
