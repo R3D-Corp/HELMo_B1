@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.Console;
-import util.UsersManager;
 
 public class AcquisitionDate {
 
@@ -20,15 +19,10 @@ public class AcquisitionDate {
         return response;
     } 
     public static void main(String[] args) throws IOException {
-
-        UsersManager manager = new UsersManager("data/users.json");
-        
-        
         String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
         String name = Console.lireString("Votre nom");
         String ddn = Console.lireStringWhile("Date de naissance (jj/mm/aaaa) ? ", "Format de date incorrect (jj/mm/aaaa)", regex);
         
-        manager.createUser(name, "test", ddn);
         IO.println(Arrays.toString(extraireDate(ddn)));
     }
 }
