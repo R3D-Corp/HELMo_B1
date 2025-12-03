@@ -1,4 +1,4 @@
-package chap8;
+package chap8.tab1D;
 
 import java.io.IOException;
 import java.util.ArrayList;

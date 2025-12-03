@@ -1,4 +1,4 @@
-package chap8;
+package chap8.tab1D;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +20,6 @@ public class AcquisitionDate {
     } 
     public static void main(String[] args) throws IOException {
         String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
-        String name = Console.lireString("Votre nom");
         String ddn = Console.lireStringWhile("Date de naissance (jj/mm/aaaa) ? ", "Format de date incorrect (jj/mm/aaaa)", regex);
         
         IO.println(Arrays.toString(extraireDate(ddn)));

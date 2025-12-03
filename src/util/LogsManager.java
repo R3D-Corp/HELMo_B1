@@ -19,9 +19,9 @@ public class LogsManager {
         .setPrettyPrinting()
         .create();
 
-    private String path;
+    private String path, name;
     private List<Logs> logs;
-    private boolean requestPrint;
+    private boolean verbose;
 
     public enum LogsType {
         INFO(AnsiColors.BLUE, "INFO"),
@@ -101,18 +101,17 @@ public class LogsManager {
     }
 
     public void printLastLog() throws Exception {
-        if(!this.requestPrint) throw new Exception("Can't print logs which are requested to no print", new Throwable("Requested print on LogsManager no verbose"));
+        if(!this.verbose) throw new Exception("Can't print logs which are requested to no print", new Throwable("Requested print on LogsManager no verbose"));
         printLog(this.logs.get(this.logs.size() - 1));
     }
 
-    public void addLogs(LogsType type, String s) throws IOException {
+    public void addLogs(LogsType type, String s) throws IOException  {
         String[] temp = Date.formaterDate(Date.temps());
-
 
         String time = String.format("%s:%s:%s", temp[0], temp[1], temp[2]);
         Logs log = new Logs(type, String.format("[%s] - %s", time, s));
         logs.add(log);
-        if(this.requestPrint) printLog(log);
+        if(this.verbose) printLog(log);
 
         this.saveLogs();
     }
@@ -121,18 +120,29 @@ public class LogsManager {
         logs.clear();
         this.saveLogs();
     }
-
-    public LogsManager(String path, boolean requestPrint)  {
-        this.requestPrint = requestPrint;
+    /**
+     * Classe permettant l'utilisation de l'outil de logs sauvegardée en json avec gestion du type. 
+     * @param name Nom du manager de logs. ex (Programme1)
+     * @param verbose Est ce que cette instance de logs va communiquer en console.
+     * @since 1.0
+     * @author R3D
+     */
+    public LogsManager(String name, boolean verbose) {
+        this.verbose = verbose;
+        this.name = name;
         String[] date = Date.formaterDate(Date.aujourdhui());
 
-        String[] temp = path.split("\\.");
-        if (temp.length != 2)
-            throw new IllegalArgumentException("Votre chemin de fichier est incorrect");
-
-
-        this.path = String.format("%s_%s_%s_%s.%s", temp[0], date[0], date[1], date[2], temp[1]);
+        String folderPath = String.format("data/logs/%s/", name);
+        this.path = String.format(String.format("%s%s_%s_%s_%s.json", folderPath, name, date[0], date[1], date[2]));
         
+        if(!Files.exists(Paths.get(folderPath))) {
+            try {
+                Files.createDirectories(Paths.get(folderPath));
+            } catch (IOException e) {
+                IO.println(e);
+            }
+        }
+
         new JsonCreator(this.path);
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
             this.logs = GSON.fromJson(reader, List.class);
@@ -141,4 +151,29 @@ public class LogsManager {
         }
 
     }
+
+
+
+    // public LogsManager(String path, boolean verbose)  {
+    //     this.verbose = verbose;
+    //     String[] date = Date.formaterDate(Date.aujourdhui());
+
+
+
+
+    //     String[] temp = path.split("\\.");
+    //     if (temp.length != 2)
+    //         throw new IllegalArgumentException("Votre chemin de fichier est incorrect");
+
+
+    //     this.path = String.format("%s_%s_%s_%s.%s", temp[0], date[0], date[1], date[2], temp[1]);
+        
+    //     new JsonCreator(this.path);
+    //     try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
+    //         this.logs = GSON.fromJson(reader, List.class);
+    //     } catch (Exception e) {
+    //         IO.println(e);
+    //     }
+
+    // }
 }
