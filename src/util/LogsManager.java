@@ -3,7 +3,9 @@ package util;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,16 +54,37 @@ public class LogsManager {
     private class Logs {
         private LogsType type;
         private String value;
+        private boolean verbose;
 
-        public Logs(LogsType type, String s) {
+        public void print() {
+            if(verbose) {
+                String regex = "^\\[\\d{2}:\\d{2}:\\d{2}]";
+                Pattern pattern = Pattern.compile(regex);
+    
+                Matcher matcher = pattern.matcher(this.value);
+    
+                String s = String.format("%s%s[%s]%s%s%s%s", 
+                    AnsiColors.BOLD, 
+                    this.type.value, 
+                    this.type.text, 
+                    AnsiColors.RESET,
+                    this.type.value,
+                    matcher.find() ? matcher.replaceFirst("") : this.value,
+                    AnsiColors.RESET
+                );
+                IO.println(s);
+            }
+        };
+
+        public Logs(LogsType type, boolean verbose, String s) {
             this.type = type;
             this.value = s;
+            this.verbose = verbose;
         }
     }
 
 
     public static void clearLogs(String path) throws IOException {
-        new JsonCreator(path);
 
         List<Logs> emptyLog = new ArrayList<>();
         try (FileWriter writer = new FileWriter(path)) {
@@ -69,57 +92,48 @@ public class LogsManager {
         }
     }
 
-    private static void printLog(Logs log) {
-        String regex = "^\\[\\d{2}:\\d{2}:\\d{2}]";
-        Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(log.value);
-
-        String s = String.format("%s%s[%s]%s%s%s%s", 
-            AnsiColors.BOLD, 
-            log.type.value, 
-            log.type.text, 
-            AnsiColors.RESET,
-            log.type.value,
-            matcher.find() ? matcher.replaceFirst("") : log.value,
-            AnsiColors.RESET
-        );
-
-        IO.println(s);
-    }
-
-    private void saveLogs() throws IOException {
+    private void saveLogs()  {
         try (FileWriter writer = new FileWriter(this.path)) {
             GSON.toJson(this.logs, writer);
+        } catch(Exception e) {
+            IO.println(e);
         }
     }
 
     public void printLogsFromType(LogsType type) {
         for(Logs l : this.logs) {
-            if(l.type == type) printLog(l);
+            if(l.type == type) l.print();
         }
     }
 
-    public void printLastLog() throws Exception {
-        if(!this.verbose) throw new Exception("Can't print logs which are requested to no print", new Throwable("Requested print on LogsManager no verbose"));
-        printLog(this.logs.get(this.logs.size() - 1));
+    public void printLastLog() {
+        this.logs.get(this.logs.size() - 1).print();
     }
 
-    public void addLogs(LogsType type, String s) throws IOException  {
+    public void addLogs(LogsType type, String s, boolean verbose) {
         String[] temp = Date.formaterDate(Date.temps());
 
         String time = String.format("%s:%s:%s", temp[0], temp[1], temp[2]);
-        Logs log = new Logs(type, String.format("[%s] - %s", time, s));
+        Logs log = new Logs(type, verbose, String.format("[%s] - %s", time, s));
+        log.print();
         logs.add(log);
-        if(this.verbose) printLog(log);
 
         this.saveLogs();
     }
 
-    public void clearLogs() throws IOException {
+    public void addLogs(LogsType type, String s)  {
+        addLogs(type, s, true);
+    }
+
+    public void addLogs(String s) {
+        addLogs(LogsType.INFO, s, true);
+    }
+
+    public void clearLogs()  {
         logs.clear();
         this.saveLogs();
     }
+    
     /**
      * Classe permettant l'utilisation de l'outil de logs sauvegardée en json avec gestion du type. 
      * @param name Nom du manager de logs. ex (Programme1)
@@ -143,7 +157,15 @@ public class LogsManager {
             }
         }
 
-        new JsonCreator(this.path);
+        Path filePath = Paths.get(this.path );
+        if(!Files.exists(filePath)) {
+            String emptyJsonContent = "[]";
+            try {
+                Files.write(filePath, emptyJsonContent.getBytes(StandardCharsets.UTF_8));
+            } catch(IOException e) {
+                IO.println("Error while creating json file : "+e.getMessage());
+            }
+        }
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
             this.logs = GSON.fromJson(reader, List.class);
         } catch (Exception e) {
@@ -151,29 +173,4 @@ public class LogsManager {
         }
 
     }
-
-
-
-    // public LogsManager(String path, boolean verbose)  {
-    //     this.verbose = verbose;
-    //     String[] date = Date.formaterDate(Date.aujourdhui());
-
-
-
-
-    //     String[] temp = path.split("\\.");
-    //     if (temp.length != 2)
-    //         throw new IllegalArgumentException("Votre chemin de fichier est incorrect");
-
-
-    //     this.path = String.format("%s_%s_%s_%s.%s", temp[0], date[0], date[1], date[2], temp[1]);
-        
-    //     new JsonCreator(this.path);
-    //     try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
-    //         this.logs = GSON.fromJson(reader, List.class);
-    //     } catch (Exception e) {
-    //         IO.println(e);
-    //     }
-
-    // }
 }

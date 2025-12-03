@@ -9,7 +9,7 @@ import io.Console;
 import util.LogsManager;
 import util.LogsManager.LogsType;
 public class LootOrDie {
-	public static final LogsManager logsManager =new LogsManager("data/logs/lootordie.json", true);
+	public static final LogsManager logsManager =new LogsManager("lootordie", true);
 
 
 	public static void main(String[] args) throws InterruptedException, IOException {

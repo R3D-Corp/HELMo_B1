@@ -1,13 +1,29 @@
 package chap8.tab2D;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class Ex1_Morpion extends JFrame {
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import util.LogsManager;
+import util.LogsManager.LogsType;
+
+public class TicTacToe extends JFrame {
+
+	private static LogsManager logsManager = new LogsManager("tictactoe", true);
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(Ex1_Morpion::new);
+		SwingUtilities.invokeLater(TicTacToe::new);
+		logsManager.addLogs(LogsType.INFO, "Le TicTacToe est lancé");
 	}
 
 	/**
@@ -22,8 +38,24 @@ public class Ex1_Morpion extends JFrame {
 	 *               (de 0 à 2).
 	 */
 	private void clicSouris(char[][] grille, char joueur, int i, int j) {
-		// TODO: compléter la fonction...
+		if (grille[i][j] == CASE_VIDE) {
+			grille[i][j] = joueur;
+			logsManager.addLogs(LogsType.WARNING, String.format("%s VIENT DE PRENDRE %d, %d", grille[i][j], i, j));
 
+			if(victoire(grille)) {
+				super.repaint();
+				logsManager.addLogs(LogsType.SUCCESS, String.format("Victoire de %s", joueur));
+				afficherMessage(String.format("Le joueur %s vient de gagné la partie", joueur));
+				nouvellePartie();
+
+			} else if(grilleComplete(grille)) {
+				logsManager.addLogs(LogsType.ERROR, String.format("Egalité de la partie"));
+				afficherMessage("Egalité");
+			} else {
+				logsManager.addLogs(LogsType.INFO, "Tour suivant");
+				joueurSuivant();
+			}
+		}
 	}
 
 	/**
@@ -35,10 +67,27 @@ public class Ex1_Morpion extends JFrame {
 	 *         contraire.
 	 */
 	private boolean victoire(char[][] grille) {
-		// TODO: compléter la fonction...
+		IO.println('O' - '0');
+		for(int i=0; i<grille.length; i++) {
+			if(grille[i][0] != CASE_VIDE && grille[i][0] == grille[i][1] && grille[i][1] == grille[i][2]) {
+				return true;
+			};
+
+			if(grille[0][i] != CASE_VIDE && grille[0][i] == grille[1][i] && grille[1][i] == grille[2][i]) {
+				return true;
+			};
+		};
+
+		if(grille[0][0] != CASE_VIDE && grille[0][0] == grille[1][1] && grille[1][1] == grille[2][2]) {
+			return true;
+		} else if(grille[2][0] != CASE_VIDE && grille[2][0] == grille[1][1] && grille[1][1] == grille[0][2]) {
+			return true;
+		}
 
 		return false;
 	}
+
+
 
 	/**
 	 * Détermine si la grille est entièrement complétée.
@@ -49,9 +98,16 @@ public class Ex1_Morpion extends JFrame {
 	 *         dans le cas contraire.
 	 */
 	private boolean grilleComplete(char[][] grille) {
-		// TODO: compléter la fonction...
-
-		return false;
+		boolean reponse = true;
+		for(int i=0; i<grille.length; i++) {
+			for(int j=0; j<grille[i].length; j++) {
+				if(grille[i][j] == CASE_VIDE) {
+					reponse = false;
+					break;
+				}
+ 			}
+		}
+		return reponse;
 	}
 
 	/**
@@ -89,7 +145,7 @@ public class Ex1_Morpion extends JFrame {
 	private char[][] grille = new char[3][3];
 	private char joueur = SYMBOLE_X;
 
-	public Ex1_Morpion() {
+	public TicTacToe() {
 		super("Morpion");
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

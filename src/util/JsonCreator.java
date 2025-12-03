@@ -10,13 +10,7 @@ public class JsonCreator {
     public JsonCreator(String filePath) {
         Path path = Paths.get(filePath);
         
-        if(Files.exists(path)) {
-            IO.println("File already exist");
-
-            if(Files.isRegularFile(path)) {
-                IO.println("Regular File");
-            }
-        } else {
+        if(!Files.exists(path)) {
             String emptyJsonContent = "[]";
             try {
                 Files.write(path, emptyJsonContent.getBytes(StandardCharsets.UTF_8));
