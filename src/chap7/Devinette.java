@@ -1,7 +1,6 @@
 package chap7;
 
 import io.Console;
-import util.Random;
 
 public class Devinette {
 

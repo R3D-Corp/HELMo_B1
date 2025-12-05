@@ -32,12 +32,15 @@ public class DistributeurBillets {
         return s;
     }
 
-    private static int getValue() {
-        String montant = Console.lireStringWhile("Montant en euros ? ", "\\d{1,3}");
-        return Integer.parseInt(montant);   
+    private static int getValue() throws Exception {
+        int montant = Integer.parseInt(Console.lireStringWhile("Montant en euros ? ", "\\d{1,3}"));
+        if(montant / BILLETS_TYPE[BILLETS_TYPE.length - 1] != 0) {
+            throw new Exception("Montant invalide", new Throwable("Incorrect value"));
+        }
+        return montant;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         while(!getCommand().equals("exit")) {
             int montant = getValue();
             int[] billets = compterBillets(montant);

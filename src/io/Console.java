@@ -85,8 +85,7 @@ public class Console {
 		do {
 			s = lireString(message, regex);
 			if(s != null) isCorrect = !isCorrect;
-		}
-		while(!isCorrect);
+		} while(!isCorrect);
 		return s;
 	}
 

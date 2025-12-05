@@ -21,6 +21,22 @@ public class Date {
 		return new int[] { lDT.getDayOfMonth(), lDT.getMonthValue(), lDT.getYear() };
 	}
 
+	public static String[] formaterDate(int[] date) {
+		String[] s = new String[date.length];
+
+		for (int i = 0; i < date.length; i++) {
+			s[i] = date[i] <= 9 ? String.format("%02d", date[i]) : Integer.toString(date[i]);
+		}
+		return s;
+	}
+
+	public static int[] temps() {
+		LocalDateTime lDT = LocalDateTime.now();
+		return new int[] {lDT.getHour(), lDT.getMinute(), lDT.getSecond()};
+	}
+
+
+
 	/**
 	 * Renvoie le numéro du jour actuel.
 	 * 
