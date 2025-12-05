@@ -67,7 +67,6 @@ public class TicTacToe extends JFrame {
 	 *         contraire.
 	 */
 	private boolean victoire(char[][] grille) {
-		IO.println('O' - '0');
 		for(int i=0; i<grille.length; i++) {
 			if(grille[i][0] != CASE_VIDE && grille[i][0] == grille[i][1] && grille[i][1] == grille[i][2]) {
 				return true;
@@ -220,7 +219,7 @@ public class TicTacToe extends JFrame {
 
 				// Symbole
 				g2.setColor(c == SYMBOLE_X ? new Color(220, 20, 60) : new Color(30, 144, 255));
-
+				
 				if (c == SYMBOLE_X) {
 					g2.drawLine(x, y, x + w, y + h);
 					g2.drawLine(x + w, y, x, y + h);
