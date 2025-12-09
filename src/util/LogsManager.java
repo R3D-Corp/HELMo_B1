@@ -100,17 +100,7 @@ public class LogsManager {
         }
     }
 
-    public void printLogsFromType(LogsType type) {
-        for(Logs l : this.logs) {
-            if(l.type == type) l.print();
-        }
-    }
-
-    public void printLastLog() {
-        this.logs.get(this.logs.size() - 1).print();
-    }
-
-    public void addLogs(LogsType type, String s, boolean verbose) {
+    private void addLogs(LogsType type, String s, boolean verbose) {
         String[] temp = Date.formaterDate(Date.temps());
 
         String time = String.format("%s:%s:%s", temp[0], temp[1], temp[2]);
@@ -121,19 +111,40 @@ public class LogsManager {
         this.saveLogs();
     }
 
+    public void printLogsFromType(LogsType type) {
+        for(Logs l : this.logs) {
+            if(l.type == type) l.print();
+        }
+    }
+
+    public void printLastLog() {
+        this.logs.get(this.logs.size() - 1).print();
+    }
+
     public void addLogs(LogsType type, String s)  {
-        addLogs(type, s, true);
+        addLogs(type, s, this.verbose);
     }
 
     public void addLogs(String s) {
-        addLogs(LogsType.INFO, s, true);
+        addLogs(LogsType.INFO, s, this.verbose);
+    }
+
+    public void addLogsForceVerbose(LogsType type, String s) {
+        this.addLogs(type, s, true);
     }
 
     public void clearLogs()  {
         logs.clear();
         this.saveLogs();
     }
-    
+    /**
+     * Fonction permettant de récuperer le nom du LogsManager
+     * @return nom du LogsManager
+     */
+    public String getName() {
+        return this.name;
+    }
+
     /**
      * Classe permettant l'utilisation de l'outil de logs sauvegardée en json avec gestion du type. 
      * @param name Nom du manager de logs. ex (Programme1)
@@ -174,3 +185,34 @@ public class LogsManager {
 
     }
 }
+
+
+/** TODO IDEE
+    **Filtrage et recherche :**
+    - [ ] Méthode pour filtrer les logs par plage de dates
+    - [ ] Méthode pour rechercher les logs contenant un mot-clé spécifique
+    - [ ] Méthode pour obtenir les logs d'une certaine heure/minute
+
+    **Gestion des fichiers :**
+    - [ ] Méthode pour exporter les logs dans d'autres formats (CSV, TXT)
+    - [ ] Méthode pour archiver les anciens logs
+    - [ ] Méthode pour obtenir la taille du fichier de logs
+
+    **Statistiques :**
+    - [ ] Méthode pour compter les logs par type
+    - [ ] Méthode pour obtenir le nombre total de logs
+    - [ ] Méthode pour afficher un résumé/statistiques des logs
+
+    **Affichage amélioré :**
+    - [ ] Méthode pour afficher les logs paginés
+    - [ ] Méthode pour afficher les N derniers logs
+    - [ ] Méthode pour afficher les logs avec une limite de lignes
+
+    **Configuration :**
+    - [ ] Méthode pour changer le niveau de verbosité dynamiquement
+    - [ ] Méthode pour définir un niveau minimum de log à afficher
+    - [ ] Méthode pour ajouter des préfixes personnalisés
+
+    **Suppression :**
+    - [ ] Méthode pour supprimer les logs d'un certain type
+ */
