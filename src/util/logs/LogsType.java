@@ -7,9 +7,9 @@ public enum LogsType {
     EVIDENCE(AnsiColors.PURPLE, "EVIDENCE"),
     SUCCESS(AnsiColors.GREEN, "SUCCESS");
 
-    public final AnsiColors color;
-    public final String label;
-    
+    public AnsiColors color;
+    public String label;
+
     LogsType(AnsiColors color, String label) {
         this.color = color;
         this.label = label;

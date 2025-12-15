@@ -97,7 +97,7 @@ public class LootOrDie {
 
 			String log = String.format("Recherche de trésor, %s taux de chance : %f", nomsTresors[i], max);
 			logsManager.addLogs(LogEntry.createLog(log));
-			if(random <= max) {
+    if(random <= max) {
 				response = nomsTresors[i];
 				break;
 			}

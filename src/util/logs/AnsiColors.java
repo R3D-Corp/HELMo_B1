@@ -1,6 +1,6 @@
 package util.logs;
-public enum AnsiColors {
 
+public enum AnsiColors {
     RESET("\u001B[0m"),
     BOLD("\u001B[1m"),
     RED("\u001B[31m"),
@@ -9,7 +9,7 @@ public enum AnsiColors {
     BLUE("\u001B[34m"),
     PURPLE("\u001B[35m");
 
-    private final String code;
+    public String code;
 
     AnsiColors(String code) {
         this.code = code;

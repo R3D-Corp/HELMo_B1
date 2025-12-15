@@ -3,7 +3,7 @@ package util.logs;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,37 +12,66 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import util.Date;
 
 public class LogsManager {
 
     private final static Gson GSON = new GsonBuilder()
-        .setPrettyPrinting()
         .create();
 
+
     private List<LogEntry> logs = new ArrayList<LogEntry>();
+    private String name, path;
     private boolean verbose;
-    private String path;
+
 
     private void appendLog(LogEntry log) {
         try (FileWriter writer = new FileWriter(this.path, true)) {
-            writer.write(GSON.toJson(log));
-            writer.write("\n");
-        } catch(IOException e) {
-            System.out.println(e);
+            writer.append("\n");
+            writer.append(GSON.toJson(log));
+        } catch(Exception e) {
+            IO.println(e);
         }
     }
-    
-    public void addLogs(LogEntry log) {
-        this.logs.add(log);
+
+    /**
+     * Classe permettant l'utilisation de l'outil de logs sauvegardée en json avec gestion du type. 
+     * @since 1.1
+     * @author R3D
+     */
+    public void addLog(LogEntry log) {
+        logs.add(log);
         this.appendLog(log);
-        if(verbose) log.print();
+        log.print();
     }
 
+    /**
+     * Fonction ajoutant au logManager une log de type "type" et de texte "s";
+     * Fonction venant de l'avant 1.1;
+     * @deprecated
+     * @param type Type de la log.
+     * @param s Texte a mettre dans la log.
+     * @author R3D
+     * @since 1.0
+     */
+    public void addLogs(LogsType type, String s)  {
+        this.addLog(LogEntry.createLogFromText(type, s));
+    }
+
+    public void addLogs(String s) {
+        this.addLog(LogEntry.createLogFromText(LogsType.INFO, s));
+    }
+    /**
+     * Classe permettant l'utilisation de l'outil de logs sauvegardée en json avec gestion du type. 
+     * @param name Nom du manager de logs. ex (Programme1)
+     * @param verbose Est ce que cette instance de logs va communiquer en console.
+     * @since 1.0
+     * @author R3D
+     */
     public LogsManager(String name, boolean verbose) {
         this.verbose = verbose;
+        this.name = name;
         String[] date = Date.formaterDate(Date.aujourdhui());
 
         String folderPath = String.format("data/logs/%s/", name);
@@ -52,61 +81,27 @@ public class LogsManager {
             try {
                 Files.createDirectories(Paths.get(folderPath));
             } catch (IOException e) {
-                System.out.println(e);
+                System.err.println("Error while creating the directory" + e);
             }
         }
 
-        Path filePath = Paths.get(this.path );
+        Path filePath = Paths.get(this.path);
         if(!Files.exists(filePath)) {
-        	try {
-        		Files.createFile(filePath);
-        	} catch(IOException e) {
-        		IO.println(e);
-        	}
+            String emptyJsonContent = "";
+            try {
+                Files.write(filePath, emptyJsonContent.getBytes(StandardCharsets.UTF_8));
+            } catch(IOException e) {
+                System.err.println("Error while creating json file : " + e.getMessage());
+            }
         }
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(this.path))) {
-        	
-        	Type type = new TypeToken<List<LogEntry>>() {}.getType();
-            this.logs = GSON.fromJson(reader, type);
-            
+            this.logs = GSON.fromJson(reader, List.class);
             if(this.logs == null) {
-            	this.logs = new ArrayList<LogEntry>();
+                this.logs = new ArrayList<LogEntry>();
             }
-            
         } catch (Exception e) {
-            System.out.println(e);
+            IO.println(e);
         }
 
     }
-
 }
-
-/** TODO IDEE
-    **Filtrage et recherche :**
-    - [ ] Méthode pour filtrer les logs par plage de dates
-    - [ ] Méthode pour rechercher les logs contenant un mot-clé spécifique
-    - [ ] Méthode pour obtenir les logs d'une certaine heure/minute
-
-    **Gestion des fichiers :**
-    - [ ] Méthode pour exporter les logs dans d'autres formats (CSV, TXT)
-    - [ ] Méthode pour archiver les anciens logs
-    - [ ] Méthode pour obtenir la taille du fichier de logs
-
-    **Statistiques :**
-    - [ ] Méthode pour compter les logs par type
-    - [ ] Méthode pour obtenir le nombre total de logs
-    - [ ] Méthode pour afficher un résumé/statistiques des logs
-
-    **Affichage amélioré :**
-    - [ ] Méthode pour afficher les logs paginés
-    - [ ] Méthode pour afficher les N derniers logs
-    - [ ] Méthode pour afficher les logs avec une limite de lignes
-
-    **Configuration :**
-    - [ ] Méthode pour changer le niveau de verbosité dynamiquement
-    - [ ] Méthode pour définir un niveau minimum de log à afficher
-    - [ ] Méthode pour ajouter des préfixes personnalisés
-
-    **Suppression :**
-    - [ ] Méthode pour supprimer les logs d'un certain type
- */
