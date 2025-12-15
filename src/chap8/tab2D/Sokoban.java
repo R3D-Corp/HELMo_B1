@@ -88,12 +88,12 @@ public class Sokoban extends JPanel implements KeyListener {
 	 */
 	private int[] positionArrivee(int[] depart, Touche direction) {
 		int[] temp = depart.clone();
-		IO.println(direction);
 		switch(direction) {
 			case HAUT -> temp[0]--;
 			case DROITE -> temp[1]++;
 			case BAS -> temp[0]++;
 			case GAUCHE -> temp[1]--;
+			default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 		}
 		return temp;
 	}
@@ -104,9 +104,6 @@ public class Sokoban extends JPanel implements KeyListener {
 			if(!contient(rangements, caisse)) {
 				return false;
 			}
-
-
-
 		}
 		return true;
 	}

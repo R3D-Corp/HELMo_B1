@@ -1,8 +1,8 @@
 package chap8.tab2D;
 
-import util.LogsManager;
 import util.Random;
-import util.LogsManager.LogsType;
+import util.logs.LogsManager;
+import util.logs.LogsType;
 
 public class DecorerSapin {
 

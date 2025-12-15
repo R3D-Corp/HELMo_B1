@@ -7,7 +7,6 @@ import io.Console;
 
 public class AcquisitionDate {
 
-
     private static int[] extraireDate(String date) {
         String[] data = date.split("/");
         int[] response = new int[data.length];
@@ -21,7 +20,7 @@ public class AcquisitionDate {
     public static void main(String[] args) throws IOException {
         String regex = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
         String ddn = Console.lireStringWhile("Date de naissance (jj/mm/aaaa) ? ", "Format de date incorrect (jj/mm/aaaa)", regex);
-        
+
         IO.println(Arrays.toString(extraireDate(ddn)));
     }
 }

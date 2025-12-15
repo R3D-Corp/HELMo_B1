@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.Console;
-import util.LogsManager;
-import util.LogsManager.LogsType;
+import util.logs.LogEntry;
+import util.logs.LogsManager;
+import util.logs.LogsType;
 
 public class Tombola {
 	private static final LogsManager logsManager = new LogsManager("Tombola", false);
@@ -86,10 +87,10 @@ public class Tombola {
 				int billet = Console.lireInt("Quel billet a été vendu ? ");
 				enregisterBillet(vendeur, billet);
 			} else if (choix == 2) {
-				IO.println(compterBillets());
+				logsManager.addLog(LogEntry.createLogFromText(Integer.toString(compterBillets())));
 			} else if (choix == 3) {
 				int billetRecherchee = Console.lireInt("Quel billet recherchez vous ? ");
-				IO.println(rechercherBillets(billetRecherchee));
+				logsManager.addLog(LogEntry.createLogFromText(rechercherBillets(billetRecherchee)));
 			} else if (choix != QUITTER) {
 				System.out.println("Choix incorrect !\n");
 			}

@@ -21,11 +21,10 @@ public class ConvertisseurBase2 {
 		long number10 = Long.parseLong(Console.lireStringWhile("Entier ? ", "\\d{1,50000}"));
 		String result = convert(number10);
 		
-		logsManager.addLogs(LogEntry.createLogWithFields("Résultat", new String[][] {
+		logsManager.addLog(LogEntry.createLogFromArray("Résultat", new String[][] {
 			{"Nombre de base", Long.toString(number10)},
 			{"Convertit en binaire", result},
 			{"Nombre de bits", Integer.toString(result.length())}
 		}));	
-		
 	}
 }

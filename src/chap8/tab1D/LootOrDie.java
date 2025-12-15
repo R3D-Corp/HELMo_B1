@@ -32,7 +32,7 @@ public class LootOrDie {
 
 		final List<String> TRESORS_JOUEURS = new ArrayList<>();
 
-		logsManager.addLogs(LogEntry.createLog(LogsType.SUCCESS, "Lancement du jeu"));
+		logsManager.addLog(LogEntry.createLogFromText(LogsType.SUCCESS, "Lancement du jeu"));
 		// Variables
 		int choixJoueur, scoreJoueur = 0;
 		String tresorAlea = null;
@@ -43,7 +43,7 @@ public class LootOrDie {
 
 			if (choixJoueur == CREUSER) {
 				tresorAlea = tresorAleatoire(NOMS_TRESORS, TAUX_APPARITION);
-				logsManager.addLogs(LogEntry.createLog(String.format("Le joueur vient de creuser")));
+				logsManager.addLog(LogEntry.createLogFromText(String.format("Le joueur vient de creuser")));
 				// Affichage du trésor trouvé
 				System.out.print("Vous creusez ");
 				for (int i = 1; i <= ATTENTE_EN_SEC; i++) {
@@ -54,7 +54,7 @@ public class LootOrDie {
 				ajouterTresor(TRESORS_JOUEURS, tresorAlea);
 				scoreJoueur += VALEURS_TRESORS[positionDe(NOMS_TRESORS, tresorAlea)];
 				System.out.printf(" %s\n\n", tresorAlea);
-				logsManager.addLogs(LogEntry.createLogWithFields("Fin de tour", new String[][]{
+				logsManager.addLog(LogEntry.createLogFromArray("Fin de tour", new String[][]{
 					{"Loot", tresorAlea},
 					{"Score", Integer.toString(scoreJoueur)}
 				}));
@@ -67,10 +67,10 @@ public class LootOrDie {
 		System.out.println();
 		if (Objects.equals(tresorAlea, PIEGE)) {
 			System.out.println("Vous mourez dans d'atroces souffrances 💀");
-			logsManager.addLogs(LogEntry.createLog(LogsType.ERROR, String.format("Fin de partie; %s", PIEGE)));
+			logsManager.addLog(LogEntry.createLogFromText(LogsType.ERROR, String.format("Fin de partie; %s", PIEGE)));
 		} else if (scoreJoueur == 0) {
 			System.out.println("Vous repartez les mains vides 😢");
-			logsManager.addLogs(LogEntry.createLog(String.format("Fin de partie; rien avec vous")));
+			logsManager.addLog(LogEntry.createLogFromText(String.format("Fin de partie; rien avec vous")));
 		} else {
 			
 			System.out.println("Vour repartez avec vos trésors :");
@@ -81,7 +81,7 @@ public class LootOrDie {
 			
 			System.out.printf("Vous avez trouver %s", s);
 			System.out.printf("Score total = %d 😊\n", scoreJoueur);
-			logsManager.addLogs(LogEntry.createLog(String.format("Fin de partie; score : %d", scoreJoueur)));
+			logsManager.addLog(LogEntry.createLogFromText(String.format("Fin de partie; score : %d", scoreJoueur)));
 		}
 	}
 
@@ -90,20 +90,20 @@ public class LootOrDie {
 		double random = Math.random();
 		String response = null;
 		
-		logsManager.addLogs(LogEntry.createLog(String.format("Le taux random est %f", random)));
+		logsManager.addLog(LogEntry.createLogFromText(String.format("Le taux random est %f", random)));
 
 		for (int i=0; i<nomsTresors.length; i++) {
 			max += tauxApparition[i];
 
 			String log = String.format("Recherche de trésor, %s taux de chance : %f", nomsTresors[i], max);
-			logsManager.addLogs(LogEntry.createLog(log));
+			logsManager.addLog(LogEntry.createLogFromText(log));
     if(random <= max) {
 				response = nomsTresors[i];
 				break;
 			}
 
 		}
-		logsManager.addLogs(LogEntry.createLog(LogsType.SUCCESS, String.format("Objet aléatoire : %s", response)));
+		logsManager.addLog(LogEntry.createLogFromText(LogsType.SUCCESS, String.format("Objet aléatoire : %s", response)));
 		return response;
 	}
 
