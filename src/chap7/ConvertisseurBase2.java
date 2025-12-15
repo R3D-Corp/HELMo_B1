@@ -2,7 +2,12 @@ package chap7;
 
 import io.Console;
 
+import util.logs.LogsManager;
+import util.logs.LogEntry;
+
 public class ConvertisseurBase2 {
+	private static LogsManager logsManager = new LogsManager("ConvertisseurBase2", true);
+	
 	private static String convert(long value) {
 		String response = "";
 		while(value > 0) {
@@ -13,12 +18,14 @@ public class ConvertisseurBase2 {
 	}
 
 	public static void main(String[] args) {
-		long number10;
-		
-		number10 = Long.parseLong(Console.lireStringWhile("Entier ? ", "\\d{1,50000}"));
-					
+		long number10 = Long.parseLong(Console.lireStringWhile("Entier ? ", "\\d{1,50000}"));
 		String result = convert(number10);
-		IO.println("Binary : " + result);
-		IO.println("Nombre de bits : " + result.length());
+		
+		logsManager.addLogs(LogEntry.createLogWithFields("Résultat", new String[][] {
+			{"Nombre de base", Long.toString(number10)},
+			{"Convertit en binaire", result},
+			{"Nombre de bits", Integer.toString(result.length())}
+		}));	
+		
 	}
 }

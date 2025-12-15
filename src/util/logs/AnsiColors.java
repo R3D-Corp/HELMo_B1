@@ -15,8 +15,17 @@ public enum AnsiColors {
         this.code = code;
     }
 
+    public String code() {
+        return code;
+    }
+
     public String apply(String text) {
+        // Shortcut: color + text + reset
         return this.code + text + RESET.code;
     }
 
+    @Override
+    public String toString() {
+        return code;
+    }
 }
