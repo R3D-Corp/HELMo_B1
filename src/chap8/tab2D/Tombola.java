@@ -7,7 +7,7 @@ import io.Console;
 import util.LogsManager;
 import util.LogsManager.LogsType;
 
-public class Ex3_Tombola {
+public class Tombola {
 	private static final LogsManager logsManager = new LogsManager("Tombola", false);
 	private static final List<Vendeur> vendeurs = new ArrayList<Vendeur>();
 	

@@ -1,15 +1,29 @@
 package chap8.tab2D;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.nio.file.*;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class Ex4_Sokoban extends JPanel implements KeyListener {
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import util.logs.LogEntry;
+import util.logs.LogsManager;
+import util.logs.LogsType;
+
+public class Sokoban extends JPanel implements KeyListener {
+
+	LogsManager logsManager = new LogsManager("Sokoban", true);
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(Ex4_Sokoban::new);
+		SwingUtilities.invokeLater(Sokoban::new);
 	}
 
 	/**
@@ -18,14 +32,41 @@ public class Ex4_Sokoban extends JPanel implements KeyListener {
 	 * @param direction  - La direction choisie par le joueur pour son déplacement.
 	 * @param murs       - La référence du tableau contenant les positions (i, j)
 	 *                   des murs du niveau.
-	 * @param rangements - La référence du tableau contenant les positions (i, j)
+	 * @param r - La référence du tableau contenant les positions (i, j)
 	 *                   des rangements du niveau.
 	 * @param caisses    - La référence du tableau contenant les positions (i, j)
 	 *                   des caisses du niveau.
 	 */
-	private void touchePressee(Direction direction, int[][] murs, int[][] rangements, int[][] caisses) {
-		// TODO: compléter la fonction...
+	private void touchePressee(Direction direction, int[][] murs, int[][] r, int[][] caisses) {
+		// logsManager.addLogs(String.format("Mouvement demandé\ndirection : %s\nmurs : %s\nrangements : %s\ncaisses : %s", direction, murs, r, caisses));
+		logsManager.addLogs(LogEntry.createLogWithFields(LogsType.EVIDENCE, "Mouvement demandé", new String[][]{
+			{"Direction", direction.toString()},
+			{"Murs", Arrays.deepToString(murs)},
+			{"Rangements", Arrays.deepToString(r)},
+			{"Caisses", Arrays.deepToString(caisses)},
+		}));
+		int[] positionJoueur = positionSuivante(joueur.clone(), direction);
 
+		for(int[] mur : murs) {
+			if(positionJoueur[0] == mur[0] && positionJoueur[1] == mur[1]) return;
+		}
+
+		for(int[] caisse : caisses) {
+			if(positionJoueur[0] == caisse[0] && positionJoueur[1] == caisse[1]) return;
+		}
+		joueur = positionJoueur;
+		
+		for(int rangement = 0; rangement<r.length; rangement++) {
+			int[] temp = r[rangement];
+			if(positionJoueur[0] == temp[0] && positionJoueur[1] == temp[1]) {
+				rangements = retirerLigne(r, rangement);
+			}
+		}
+
+		if(r.length<=0) {
+			afficherMessage("Féliciations ! Niveau suivant.");
+			niveauSuivant();
+		}
 	}
 
 	/**
@@ -38,10 +79,26 @@ public class Ex4_Sokoban extends JPanel implements KeyListener {
 	 *         déplacement effectué.
 	 */
 	private int[] positionSuivante(int[] depart, Direction direction) {
-		// TODO: compléter la fonction...
-
+		switch(direction) {
+			case DROITE :
+				depart[1]++; 
+				break;
+			case GAUCHE : 
+				depart[1]--;
+				break;
+			case HAUT : 
+				depart[0]--;
+			 	break;
+			case BAS : 
+				depart[0]++;
+				break;
+			default : 
+				break;
+		}
 		return depart;
 	}
+
+
 
 	/**
 	 * Passe au niveau suivant.
@@ -87,7 +144,7 @@ public class Ex4_Sokoban extends JPanel implements KeyListener {
 	// Fenêtre principale
 	private JFrame frame;
 
-	public Ex4_Sokoban() {
+	public Sokoban() {
 		chargerImages();
 		chargerNiveau(numNiveau);
 
@@ -154,6 +211,19 @@ public class Ex4_Sokoban extends JPanel implements KeyListener {
 		int[][] nouveau = Arrays.copyOf(t, t.length + 1);
 		nouveau[nouveau.length - 1] = ligne;
 		return nouveau;
+	}
+
+	private static int[][] retirerLigne(int[][] t, int numeroLigne) {
+		int[][] temp = new int[t.length - 1][2];
+		int tempIndex = 0;
+		for(int i=0; i<t.length; i++) {
+			if(i==numeroLigne) {
+				break;
+			}
+			temp[tempIndex] = t[i];
+			tempIndex++;
+		}
+		return temp;
 	}
 
 	@Override

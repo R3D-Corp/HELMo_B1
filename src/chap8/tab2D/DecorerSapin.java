@@ -4,7 +4,7 @@ import util.LogsManager;
 import util.Random;
 import util.LogsManager.LogsType;
 
-public class Ex5_DecorerSapin {
+public class DecorerSapin {
 
 	private static final LogsManager logsManager = new LogsManager("DecorerSapin", true);
 
@@ -21,10 +21,12 @@ public class Ex5_DecorerSapin {
 
 
 	public static char[][] constuireSapin(int length) {
-		final char[][] sapin = new char[length+1][];
 		final int AXIS_X = 1 + (length * 2);
+		final int totalRows = length + 1;
 
-		for(int i = 0; i<sapin.length-1; i++) {
+		final char[][] sapin = new char[totalRows][];
+
+		for(int i = 0; i<length; i++) {
 			final int NUMBER_DOTS = 1 + (i * 2);
 			final int NUMBER_SPACE = (AXIS_X - NUMBER_DOTS) / 2;
 
