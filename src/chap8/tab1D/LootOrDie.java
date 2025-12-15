@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 import io.Console;
-import util.LogsManager;
-import util.LogsManager.LogsType;
+import util.logs.LogsManager;
+import util.logs.LogsType;
 public class LootOrDie {
 	public static final LogsManager logsManager =new LogsManager("lootordie", true);
 

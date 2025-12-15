@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import util.LogsManager;
-import util.LogsManager.LogsType;
+import util.logs.LogsManager;
+import util.logs.LogsType;
 
 public class TicTacToe extends JFrame {
 

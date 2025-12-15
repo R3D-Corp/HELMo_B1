@@ -1,8 +1,8 @@
 package chap8.tab2D;
 
 import io.Console;
-import util.LogsManager;
-import util.LogsManager.LogsType;
+import util.logs.LogsManager;
+import util.logs.LogsType;
 public class TrianglePascal {
     
     private static final LogsManager logsManager = new LogsManager("TriangePascal", true);
